@@ -153,27 +153,30 @@ namespace CIS501_PA1_MarcoVasquez
 
         private void readAlarmTxt()
         {
-            string[] alarmText = File.ReadAllLines("alarms.txt");
-            string[] alarmLine = { "" };
-            bool alarmOnOff = false;
-            foreach (string line in alarmText)
+            if (File.Exists("alarms.txt"))
             {
-                alarmLine = line.Split();
-                DateTime t = DateTime.Parse(alarmLine[0]);
-                if (alarmLine[2].ToLower() == "on")
+                string[] alarmText = File.ReadAllLines("alarms.txt");
+                string[] alarmLine = { "" };
+                bool alarmOnOff = false;
+                foreach (string line in alarmText)
                 {
-                    alarmOnOff = true;
+                    alarmLine = line.Split();
+                    DateTime t = DateTime.Parse(alarmLine[0]);
+                    if (alarmLine[2].ToLower() == "on")
+                    {
+                        alarmOnOff = true;
+                    }
+                    else
+                    {
+                        alarmOnOff = false;
+                    }
+                    Alarm a = new Alarm(t, alarmOnOff);
+                    alarmList.Add(a);
                 }
-                else
+                if (alarmList.Count >= 5)
                 {
-                    alarmOnOff = false;
+                    addButton.Enabled = false;
                 }
-                Alarm a = new Alarm(t, alarmOnOff);
-                alarmList.Add(a);
-            }
-            if (alarmList.Count >= 5)
-            {
-                addButton.Enabled = false;
             }
         }
 
